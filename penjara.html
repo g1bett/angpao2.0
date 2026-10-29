@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark">
+    <title>Penjara</title>
+
+    <!-- Google Sans font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="penjara.css">
+</head>
+
+<body>
+
+    <!-- ==================================================
+         BACKGROUND DECORATION
+         Purely visual, hidden from screen readers
+         ================================================== -->
+    <div class="decoration" aria-hidden="true">
+        <span class="decoration-glow decoration-glow-top"></span>
+        <span class="decoration-glow decoration-glow-bottom"></span>
+
+        <span class="decoration-coin decoration-coin-one"></span>
+        <span class="decoration-coin decoration-coin-two"></span>
+        <span class="decoration-coin decoration-coin-three"></span>
+        <span class="decoration-coin decoration-coin-four"></span>
+    </div>
+
+
+    <main>
+
+        <!-- ==================================================
+             SCREEN 1: GATE
+             Shown first. Also shown again when the visitor
+             refuses or leaves fullscreen mode.
+             ================================================== -->
+        <section class="screen screen-gate is-active" id="gate-screen">
+            <button class="button button-enter" id="enter-prison-button" type="button">MASUK KE PENJARA</button>
+        </section>
+
+
+        <!-- ==================================================
+             SCREEN 2: PRISON
+             Shown only while the browser is in fullscreen mode
+             ================================================== -->
+        <section class="screen screen-prison" id="prison-screen">
+
+            <!-- Prison bars on the left and right side (decoration) -->
+            <div class="prison-bars prison-bars-left" aria-hidden="true"></div>
+            <div class="prison-bars prison-bars-right" aria-hidden="true"></div>
+
+            <h1 class="prison-title">KAMU DIPENJARA</h1>
+
+            <button class="button button-exit" id="exit-prison-button" type="button">KELUAR DARI PENJARA</button>
+
+        </section>
+
+    </main>
+
+
+    <!-- ==================================================
+         POPUP 1: FULLSCREEN REQUEST
+         Appears as soon as the page opens.
+         (Browsers only allow fullscreen after a click,
+         so OKE is the click that starts fullscreen mode.)
+         ================================================== -->
+    <div class="popup-overlay" id="fullscreen-popup" role="alertdialog" aria-modal="true" aria-labelledby="fullscreen-popup-message" aria-hidden="true">
+        <div class="popup-card popup-card-centered" tabindex="-1">
+
+            <p class="popup-message" id="fullscreen-popup-message">
+                Masuk ke penjara dalam mode fullscreen?
+            </p>
+
+            <div class="popup-actions">
+                <button class="button button-accept" id="fullscreen-accept-button" type="button">OKE</button>
+                <button class="button button-decline" id="fullscreen-decline-button" type="button">NO</button>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ==================================================
+         POPUP 2: PAYMENT
+         Opened by the KELUAR DARI PENJARA button.
+         Goes straight to the QR code and has no cancel button.
+         ================================================== -->
+    <div class="popup-overlay" id="payment-popup" role="alertdialog" aria-modal="true" aria-labelledby="payment-popup-title" aria-hidden="true">
+        <div class="popup-card popup-card-centered" tabindex="-1">
+
+            <h2 class="popup-title" id="payment-popup-title">BAYAR UNTUK KE LUAR DARI PENJARA</h2>
+
+            <!-- QR code -->
+            <div class="qr-frame">
+                <img class="qr-image" src="assets/qr-p.jpeg" alt="QR code pembayaran untuk keluar dari penjara">
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Main script -->
+    <script src="penjara.js"></script>
+
+</body>
+
+</html>

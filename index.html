@@ -1,36 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>angpao plis</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Angpao Plis</title>
 
+    <!-- Google Sans font from Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="container">
-    <div class="text1">
-        <h2>KIONG HI NEGROS</h2>
+
+    <!-- ==================================================
+         BACKGROUND DECORATION
+         Purely visual, hidden from screen readers
+         ================================================== -->
+    <div class="decoration" aria-hidden="true">
+        <span class="decoration-glow decoration-glow-top"></span>
+        <span class="decoration-glow decoration-glow-bottom"></span>
+
+        <span class="decoration-coin decoration-coin-one"></span>
+        <span class="decoration-coin decoration-coin-two"></span>
+        <span class="decoration-coin decoration-coin-three"></span>
+        <span class="decoration-coin decoration-coin-four"></span>
     </div>
 
-    <div class="image">
-        <image id="imagee"src="gambar.gif"></image>
+
+    <!-- ==================================================
+         MAIN PAGE
+         ================================================== -->
+    <main class="page">
+
+        <!-- Title -->
+        <h1 class="page-title">
+            <span class="page-title-line">HALOOO</span>
+            <span class="page-title-line">BAGI ANGPAO PLIS</span>
+        </h1>
+
+        <!-- Mascot -->
+        <div class="mascot">
+            <img class="mascot-image" src="assets/gambar.gif" alt="Maskot sapi lucu sedang menari">
+        </div>
+
+        <!-- Main buttons (data-stage is updated by script.js every time GAMAU is clicked) -->
+        <div class="button-area" id="button-area" data-stage="0">
+            <button class="button button-okay" id="okay-button" type="button">OKEE</button>
+            <button class="button button-refuse" id="refuse-button" type="button">GAMAU</button>
+        </div>
+
+    </main>
+
+
+    <!-- ==================================================
+         POPUP 1: CHOOSE PAYMENT METHOD
+         Opened by the OKEE button
+         ================================================== -->
+    <div class="popup-overlay" id="payment-popup" role="dialog" aria-modal="true" aria-labelledby="payment-popup-title" aria-hidden="true" data-dismissible>
+        <div class="popup-card">
+
+            <!-- Popup header -->
+            <div class="popup-header">
+                <h2 class="popup-title" id="payment-popup-title">PILIH METODE PEMBAYARAN</h2>
+                <button class="popup-close-button" type="button" aria-label="Tutup" data-close-popup>&times;</button>
+            </div>
+
+            <!-- Payment method options -->
+            <ul class="payment-list">
+
+                <li>
+                    <button class="payment-option" type="button" data-payment-method="bri">
+                        <img class="payment-logo" src="assets/logo-bri.png" alt="">
+                        <span class="payment-name">Transfer rekening BRI</span>
+                    </button>
+                </li>
+
+                <li>
+                    <button class="payment-option" type="button" data-payment-method="gopay">
+                        <img class="payment-logo" src="assets/logo-gopay.png" alt="">
+                        <span class="payment-name">Gopay</span>
+                    </button>
+                </li>
+
+                <li>
+                    <button class="payment-option" type="button" data-payment-method="ovo">
+                        <img class="payment-logo" src="assets/logo-ovo.png" alt="">
+                        <span class="payment-name">OVO</span>
+                    </button>
+                </li>
+
+            </ul>
+
+        </div>
     </div>
 
-    <div class="text2">
-        <h3>bagi angpao</h3>
+
+    <!-- ==================================================
+         POPUP 2: QR CODE
+         Opened after a payment method is chosen
+         ================================================== -->
+    <div class="popup-overlay" id="qr-popup" role="dialog" aria-modal="true" aria-labelledby="qr-popup-title" aria-hidden="true" data-dismissible>
+        <div class="popup-card">
+
+            <!-- Popup header -->
+            <div class="popup-header">
+                <h2 class="popup-title" id="qr-popup-title">TRANSFER DI SINI YAA</h2>
+                <button class="popup-close-button" type="button" aria-label="Tutup" data-close-popup>&times;</button>
+            </div>
+
+            <!-- QR code (image is swapped by script.js depending on the chosen method) -->
+            <div class="qr-frame">
+                <img class="qr-image" id="qr-image" src="images/qr-bri.svg" alt="QR code pembayaran">
+            </div>
+
+        </div>
     </div>
 
-    <div class="button">
-        <button id="buttonYes">OKEH</button>
-        <button id="buttonNo">gamau</button>
-    </div>
+
+    <!-- ==================================================
+         POPUP 3: CONFIRM REFUSAL
+         Opened when GAMAU is clicked after its last stage.
+         Not dismissible: the visitor must choose one option.
+         ================================================== -->
+    <div class="popup-overlay" id="confirm-popup" role="alertdialog" aria-modal="true" aria-labelledby="confirm-popup-message" aria-hidden="true">
+        <div class="popup-card popup-card-confirm">
+
+            <p class="confirm-message" id="confirm-popup-message">
+                Yakin gamau ngasi angpao? Kamu bakal diarahin ke penjara khusus.
+            </p>
+
+            <div class="confirm-actions">
+                <a class="button button-confirm-yes" href="penjara.html">YAKIN</a>
+                <button class="button button-confirm-no" id="cancel-confirm-button" type="button">ENGGA DEH</button>
+            </div>
+
+        </div>
     </div>
 
+
+    <!-- Main script -->
     <script src="script.js"></script>
+
 </body>
+
 </html>

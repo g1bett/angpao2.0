@@ -1,64 +1,697 @@
+/* ==========================================================
+   1. DESIGN TOKENS
+   Change colors, sizes and fonts here to restyle the whole site
+   ========================================================== */
+
+:root {
+    /* Fonts */
+    --font-main: "Google Sans", "Product Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+    /* Page colors */
+    --color-background-start: #fff9f1;
+    --color-background-end: #ffe8d1;
+    --color-text: #2a1713;
+    --color-gold: #f2b84b;
+    --color-red-soft: #e8503a;
+
+    /* Button colors */
+    --color-okay: #3ddc84;
+    --color-okay-shadow: #22a85c;
+    --color-okay-text: #0a2e17;
+    --color-refuse: #e0362c;
+    --color-refuse-shadow: #a8241c;
+    --color-refuse-text: #ffffff;
+
+    /* Popup colors */
+    --color-card-background: #ffffff;
+    --color-card-border: #f1e2d4;
+    --color-card-soft: #fffaf5;
+    --color-overlay: rgba(42, 23, 19, 0.45);
+
+    /* Shape */
+    --radius-card: 1.5rem;
+    --radius-small: 1rem;
+
+    /* Animation */
+    --transition-fast: 0.2s ease;
+}
+
+
+/* ==========================================================
+   2. BASE / RESET
+   ========================================================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
 body {
     margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    font-family: var(--font-main);
+    color: var(--color-text);
+    background: linear-gradient(
+        160deg,
+        var(--color-background-start) 0%,
+        var(--color-background-end) 100%
+    );
+    background-attachment: fixed;
+}
+
+h1,
+h2,
+p,
+ul {
+    margin: 0;
+}
+
+ul {
     padding: 0;
-    height: 100vh;
+    list-style: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+button {
+    font-family: inherit;
+}
+
+:focus-visible {
+    outline: 3px solid var(--color-red-soft);
+    outline-offset: 3px;
+}
+
+
+/* ==========================================================
+   3. BACKGROUND DECORATION
+   Soft glows and floating coins (kept minimal and subtle)
+   ========================================================== */
+
+.decoration {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* ----- Soft glows ----- */
+
+.decoration-glow {
+    position: absolute;
+    border-radius: 50%;
+}
+
+.decoration-glow-top {
+    top: -9rem;
+    left: -9rem;
+    width: 24rem;
+    height: 24rem;
+    background: radial-gradient(circle, rgba(242, 184, 75, 0.5) 0%, rgba(242, 184, 75, 0) 70%);
+}
+
+.decoration-glow-bottom {
+    right: -10rem;
+    bottom: -10rem;
+    width: 28rem;
+    height: 28rem;
+    background: radial-gradient(circle, rgba(232, 80, 58, 0.28) 0%, rgba(232, 80, 58, 0) 70%);
+}
+
+/* ----- Floating coins ----- */
+
+.decoration-coin {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #ffe9a8 0%, var(--color-gold) 65%, #d89a22 100%);
+    box-shadow: inset 0 0 0 0.2rem rgba(255, 255, 255, 0.35);
+    opacity: 0.85;
+    animation: coin-float 6s ease-in-out infinite;
+}
+
+.decoration-coin-one {
+    top: 14%;
+    left: 10%;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.decoration-coin-two {
+    top: 24%;
+    right: 9%;
+    width: 1rem;
+    height: 1rem;
+    animation-delay: -2s;
+}
+
+.decoration-coin-three {
+    bottom: 20%;
+    left: 7%;
+    width: 1.1rem;
+    height: 1.1rem;
+    animation-delay: -4s;
+}
+
+.decoration-coin-four {
+    right: 16%;
+    bottom: 12%;
+    width: 1.6rem;
+    height: 1.6rem;
+    animation-delay: -1s;
+}
+
+@keyframes coin-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-0.9rem);
+    }
+}
+
+
+/* ==========================================================
+   4. MAIN PAGE LAYOUT
+   ========================================================== */
+
+.page {
+    position: relative;
+    z-index: 1;
     display: flex;
-    justify-content: center;                            /*horizontal*/
-    align-items: center;                                /*vertikal */
-    background-color: aliceblue;
-    font-family: "Roboto", sans-serif;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.25rem, 4vh, 2.5rem);
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 2rem 1.25rem;
     text-align: center;
 }
 
-.container {
-    justify-content: center;
+
+/* ==========================================================
+   5. TITLE
+   ========================================================== */
+
+.page-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: clamp(1.75rem, 4.5vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+}
+
+.page-title-line {
     display: block;
 }
 
-#imagee {
-    width: 60vh;
-    max-width: 80%;
+/* Small gold accent line under the title */
+.page-title::after {
+    content: "";
+    display: block;
+    width: 4rem;
+    height: 0.3rem;
+    margin-top: 0.9rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--color-gold), var(--color-red-soft));
 }
 
-.text1 {
-    font-size: 30px;
+
+/* ==========================================================
+   6. MASCOT
+   ========================================================== */
+
+.mascot {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(11rem, 28vw, 15rem);
+    aspect-ratio: 1;
 }
 
-.text2 {
-    font-size: 28px;
+/* Soft glow behind the mascot */
+.mascot::before {
+    content: "";
+    position: absolute;
+    inset: 8%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 70%);
 }
+
+.mascot-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
+/* ==========================================================
+   7. BUTTONS (shared style)
+   Padding and shadow use "em", so they grow with the font size
+   ========================================================== */
 
 .button {
-    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    gap: 20px;
-}
-
-#buttonYes {
-    padding: 10px 20px;
-    font-size: 20px;
-    background-color: #ff4d4d;
-    color: white;
+    padding: 0.45em 1.3em;
     border: none;
+    border-radius: 999px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        font-size 0.4s ease,
+        filter var(--transition-fast),
+        box-shadow var(--transition-fast),
+        transform var(--transition-fast);
 }
 
-#buttonNo {
-    padding: 10px 20px;
-    font-size: 20px;
-    background-color: #ccc;
-    border: none;
+.button:hover {
+    filter: brightness(1.06);
 }
 
-.qr {
+.button:active {
+    transform: translateY(0.1em);
+}
+
+/* ----- OKEE ----- */
+
+.button-okay {
+    font-size: var(--okay-size, 1.5rem);
+    color: var(--color-okay-text);
+    background-color: var(--color-okay);
+    box-shadow:
+        0 0.18em 0 var(--color-okay-shadow),
+        0 0.6em 1.1em rgba(34, 168, 92, 0.3);
+}
+
+.button-okay:active {
+    box-shadow:
+        0 0.08em 0 var(--color-okay-shadow),
+        0 0.3em 0.6em rgba(34, 168, 92, 0.3);
+}
+
+/* ----- GAMAU ----- */
+
+.button-refuse {
+    font-size: var(--refuse-size, 1.5rem);
+    color: var(--color-refuse-text);
+    background-color: var(--color-refuse);
+    box-shadow:
+        0 0.18em 0 var(--color-refuse-shadow),
+        0 0.6em 1.1em rgba(224, 54, 44, 0.3);
+}
+
+.button-refuse:active {
+    box-shadow:
+        0 0.08em 0 var(--color-refuse-shadow),
+        0 0.3em 0.6em rgba(224, 54, 44, 0.3);
+}
+
+/* Short "pop" animation, added by script.js every time GAMAU is clicked */
+.button-refuse.is-bouncing {
+    animation: button-pop 0.4s ease;
+}
+
+@keyframes button-pop {
+    0% {
+        transform: scale(0.6);
+    }
+
+    60% {
+        transform: scale(1.12);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* ==========================================================
+   8. BUTTON AREA & GAMAU STAGES
+   script.js changes data-stage from 0 to 6.
+   - OKEE grows bigger every stage
+   - GAMAU shrinks every stage
+   - From stage 3, GAMAU starts to move away
+   - From stage 4, GAMAU runs to other parts of the screen
+   ========================================================== */
+
+.button-area {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    display: block;
+    gap: clamp(1.25rem, 4vw, 2.5rem);
+    min-height: 7rem;
 }
 
-#text3 {
-    font-size: 35px;
+/* ----- Stage 0: initial state ----- */
+
+.button-area[data-stage="0"] {
+    --okay-size: 1.5rem;
+    --refuse-size: 1.5rem;
 }
 
-#qr {
-    width: 60vh;
-    max-width: 80%;
+/* ----- Stage 1 ----- */
+
+.button-area[data-stage="1"] {
+    --okay-size: 2rem;
+    --refuse-size: 1.2rem;
+}
+
+/* ----- Stage 2 ----- */
+
+.button-area[data-stage="2"] {
+    --okay-size: 2.1rem;
+    --refuse-size: 0.95rem;
+}
+
+/* ----- Stage 3: GAMAU slides away a little ----- */
+
+.button-area[data-stage="3"] {
+    --okay-size: 2.25rem;
+    --refuse-size: 0.85rem;
+}
+
+.button-area[data-stage="3"] .button-refuse {
+    translate: -1rem 0.25rem;
+}
+
+/* ----- Stage 4: GAMAU jumps to the right of the mascot ----- */
+
+.button-area[data-stage="4"] {
+    --okay-size: 2.8rem;
+    --refuse-size: 0.85rem;
+}
+
+.button-area[data-stage="4"] .button-refuse {
+    position: fixed;
+    z-index: 2;
+    top: 33%;
+    left: 70%;
+}
+
+/* ----- Stage 5: GAMAU jumps to the upper right ----- */
+
+.button-area[data-stage="5"] {
+    --okay-size: 3.4rem;
+    --refuse-size: 0.7rem;
+}
+
+.button-area[data-stage="5"] .button-refuse {
+    position: fixed;
+    z-index: 2;
+    top: 17%;
+    left: 75%;
+}
+
+/* ----- Stage 6: GAMAU jumps to the upper left, almost invisible ----- */
+
+.button-area[data-stage="6"] {
+    --okay-size: 3.6rem;
+    --refuse-size: 0.65rem;
+}
+
+.button-area[data-stage="6"] .button-refuse {
+    position: fixed;
+    z-index: 2;
+    top: 14.5%;
+    left: 8.5%;
+}
+
+
+/* ==========================================================
+   9. POPUP (shared style for all three popups)
+   ========================================================== */
+
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    background-color: var(--color-overlay);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+        opacity var(--transition-fast),
+        visibility 0s linear 0.2s;
+}
+
+/* Added by script.js to show a popup */
+.popup-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+}
+
+.popup-card {
+    width: min(100%, 26rem);
+    max-height: 100%;
+    overflow-y: auto;
+    padding: 1.5rem;
+    border-radius: var(--radius-card);
+    background-color: var(--color-card-background);
+    box-shadow: 0 1.5rem 3rem rgba(42, 23, 19, 0.25);
+    transform: translateY(1rem) scale(0.96);
+    transition: transform 0.3s ease;
+}
+
+.popup-overlay.is-visible .popup-card {
+    transform: translateY(0) scale(1);
+}
+
+/* ----- Popup header (title on the left, close button on the right) ----- */
+
+.popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.popup-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+}
+
+.popup-close-button {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--color-text);
+    background-color: #f6ebe0;
+    cursor: pointer;
+    transition:
+        background-color var(--transition-fast),
+        color var(--transition-fast);
+}
+
+.popup-close-button:hover {
+    color: #ffffff;
+    background-color: var(--color-red-soft);
+}
+
+
+/* ==========================================================
+   10. POPUP 1: PAYMENT METHOD LIST
+   ========================================================== */
+
+.payment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--color-card-border);
+    border-radius: var(--radius-small);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text);
+    text-align: left;
+    background-color: var(--color-card-soft);
+    cursor: pointer;
+    transition:
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.payment-option:hover {
+    border-color: var(--color-gold);
+    box-shadow: 0 0.5rem 1rem rgba(242, 184, 75, 0.25);
+    transform: translateY(-2px);
+}
+
+.payment-logo {
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.75rem;
+    object-fit: contain;
+}
+
+.payment-name {
+    flex: 1;
+}
+
+
+/* ==========================================================
+   11. POPUP 2: QR CODE
+   ========================================================== */
+
+.qr-frame {
+    width: min(100%, 18rem);
+    margin: 0 auto;
+    padding: 0.75rem;
+    border: 2px solid var(--color-card-border);
+    border-radius: var(--radius-small);
+    background-color: #ffffff;
+}
+
+.qr-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: contain;
+}
+
+
+/* ==========================================================
+   12. POPUP 3: CONFIRM REFUSAL
+   ========================================================== */
+
+.popup-card-confirm {
+    padding: 2rem 1.5rem 1.5rem;
+    text-align: center;
+}
+
+.confirm-message {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.confirm-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
+}
+
+.confirm-actions .button {
+    flex: 1;
+    padding-right: 0.8em;
+    padding-left: 0.8em;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+/* ENGGA DEH is the "safe" choice, so it uses the green color */
+.button-confirm-no {
+    color: var(--color-okay-text);
+    background-color: var(--color-okay);
+    box-shadow: 0 0.18em 0 var(--color-okay-shadow);
+}
+
+.button-confirm-yes {
+    color: var(--color-refuse-text);
+    background-color: var(--color-refuse);
+    box-shadow: 0 0.18em 0 var(--color-refuse-shadow);
+}
+
+
+/* ==========================================================
+   13. RESPONSIVE: PHONES
+   GAMAU positions are adjusted so it does not cover the title
+   ========================================================== */
+
+@media (max-width: 600px) {
+
+    .page {
+        padding-top: 5rem;
+    }
+
+    .decoration-coin-two,
+    .decoration-coin-three {
+        display: none;
+    }
+
+    .button-area[data-stage="4"] .button-refuse {
+        top: 36%;
+        right: 4%;
+        left: auto;
+    }
+
+    .button-area[data-stage="5"] .button-refuse {
+        top: 6%;
+        right: 4%;
+        left: auto;
+    }
+
+    .button-area[data-stage="6"] .button-refuse {
+        top: 6%;
+        left: 4%;
+    }
+
+    .confirm-message {
+        font-size: 1.2rem;
+    }
+
+}
+
+
+/* ==========================================================
+   14. REDUCED MOTION
+   Turns off animations for visitors who prefer less movement
+   ========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition-duration: 0.01ms !important;
+    }
+
 }
